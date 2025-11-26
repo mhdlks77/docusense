@@ -1,6 +1,9 @@
 from fastapi import FastAPI, UploadFile, File
 import shutil
 import os
+from datetime import datetime
+from app.models.document_metadata import DocumentMetadata
+from app.storage.metadata_store import load_metadata, save_metadata
 
 app = FastAPI()
 
@@ -18,6 +21,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     file_path = os.path.join(UPLOAD_DIR, file.filename)
 
+    # Save pdf to the uploads folder (cloud later)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
